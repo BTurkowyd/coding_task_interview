@@ -11,12 +11,10 @@ const Login = () => {
     const navigate = useNavigate()
 
     const handleSubmit = () => {
-
         const credentials = {
             "name": name,
             "password": password
         }
-        
         try {
             const response = loginUser(JSON.stringify(credentials))
             console.log(response)
@@ -26,20 +24,8 @@ const Login = () => {
 
         setName("")
         setPassword("")
-
-        navigate("/")
-
+        navigate("/bikes")
     }
-
-    // const credentials = { "name": "TestUser1", "password": "password1" }
-    
-    // try {
-    //     const response = await axios.post(`${url}/login`, JSON.stringify(credentials))
-    //     console.log(response)
-    // } catch (error) {
-    //     console.log(error)
-    // }
-
     return(
         <div className="form">
             <form onSubmit={handleSubmit}>
