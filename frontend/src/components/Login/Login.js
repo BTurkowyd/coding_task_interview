@@ -7,7 +7,6 @@ const Login = () => {
 
     const [name, setName] = useState("")
     const [password, setPassword] = useState("")
-
     const navigate = useNavigate()
 
     const handleSubmit = () => {
@@ -16,11 +15,16 @@ const Login = () => {
             "password": password
         }
         try {
-            const response = loginUser(JSON.stringify(credentials))
-            console.log(response)
+            loginUser(JSON.stringify(credentials))
+            .then(response => {
+                localStorage.setItem("name", response.data.name)
+                localStorage.setItem("renting", response.data.renting)
+                localStorage.setItem("bike_id", response.data.bike_id)
+            })
         } catch (error) {
             console.log(error)
         }
+        
 
         setName("")
         setPassword("")
