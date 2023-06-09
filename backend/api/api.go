@@ -84,7 +84,7 @@ func BikeByIdAPI(c *gin.Context) {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Bike not found"})
 		return
 	}
-	c.IndentedJSON(http.StatusOK, bike)
+	c.IndentedJSON(http.StatusOK, gin.H{"bike_id": bike.Bike_id, "name": bike.Name, "rented": bike.Rented, "latitude": bike.Latitude, "longtitude": bike.Longtitude})
 }
 
 func GetBikesAPI(c *gin.Context) {

@@ -14,18 +14,14 @@ const Login = () => {
             "name": name,
             "password": password
         }
-        try {
             loginUser(JSON.stringify(credentials))
             .then(response => {
                 localStorage.setItem("name", response.data.name)
                 localStorage.setItem("renting", response.data.renting)
                 localStorage.setItem("bike_id", response.data.bike_id)
             })
-        } catch (error) {
-            console.log(error)
-        }
+            .catch(response => console.log(response.message))
         
-
         setName("")
         setPassword("")
         navigate("/bikes")
