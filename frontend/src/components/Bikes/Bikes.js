@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchBikes, logoutUser } from "../../api/api";
+import { fetchBikes, logoutUser, rentBike, returnBike } from "../../api/api";
 
 
 const Bikes = () => {
@@ -45,11 +45,23 @@ const Bikes = () => {
             <div key={item.bike_id}>
                 <p>
                     {item.name}
-                    {item.user_id === user["name"] && <button>Return bike</button>}
-                    {(item.rented === false && user["renting"] === "false")&& <button>Rent bike</button>}
+                    {item.user_id === user["name"] && <button onClick={()=> handleReturnBike(item.bike_id)}>Return bike</button>}
+                    {(item.rented === false && user["renting"] === "false")&& <button onClick={()=> handleRentBike(item.bike_id)}>Rent bike</button>}
                 </p>
             </div>
         )))
+    }
+
+    const handleRentBike = (bike_id) => {
+        rentBike(bike_id)
+        .then(response => console.log(response.message))
+        .catch(error => console.log(error))
+    }
+
+    const handleReturnBike = (bike_id) => {
+        returnBike(bike_id)
+        .then(response => console.log(response.message))
+        .catch(error => console.log(error))
     }
 
     return (
