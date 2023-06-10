@@ -45,7 +45,8 @@ func HandleLogin(c *gin.Context) {
 			session.Set("user_name", user.Name)
 			session.Save()
 
-			c.JSON(http.StatusOK, gin.H{"message": "Login successful", "user": user.Name, "password": user.Password})
+			c.Status(http.StatusOK)
+			c.JSON(http.StatusOK, gin.H{"name": user.Name, "renting": user.Renting, "bike_id": user.Bike_id})
 			fmt.Println("Login successful")
 		} else {
 			authenticated := false
