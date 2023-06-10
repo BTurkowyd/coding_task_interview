@@ -14,6 +14,7 @@ func main() {
 	router.POST("/login", api.HandleLogin)
 	router.GET("/logout", api.HandleLogout)
 	router.POST("/register", api.HandleRegister)
+	router.GET("/getCookie", api.GetCookieSession)
 
 	router.GET("/bikes", api.GetBikesAPI)
 	router.GET("/bikes/:id", api.BikeByIdAPI)

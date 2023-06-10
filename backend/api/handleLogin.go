@@ -13,7 +13,6 @@ import (
 func HandleLogin(c *gin.Context) {
 	session := sessions.Default(c)
 	authenticated := session.Get("authenticated")
-	// c.Header("Content-Type", "application/json")
 
 	if authenticated != true {
 		authenticated = false
@@ -46,8 +45,7 @@ func HandleLogin(c *gin.Context) {
 			session.Set("user_name", user.Name)
 			session.Save()
 
-			c.Status(http.StatusOK)
-			c.IndentedJSON(http.StatusOK, gin.H{"name": user.Name, "renting": user.Renting, "bike_id": user.Bike_id})
+			c.JSON(http.StatusOK, gin.H{"message": "Login successful", "user": user.Name, "password": user.Password})
 			fmt.Println("Login successful")
 		} else {
 			authenticated := false
@@ -57,5 +55,13 @@ func HandleLogin(c *gin.Context) {
 			fmt.Println("Login failed")
 		}
 	}
+
+}
+
+func GetCookieSession(c *gin.Context) {
+	session := sessions.Default(c)
+
+	session.Set("username", "John Doe")
+	session.Save()
 
 }
