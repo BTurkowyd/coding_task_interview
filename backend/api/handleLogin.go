@@ -10,6 +10,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// HandleLogin ... Handles the login procedure to the service.
+// @Summary Handles the login procedure to the service.
+// @Description Handles the login procedure to the service.
+// @Accept application/json
+// @Param id body application/json true "bike_id in models.LoginRequest"
+// @Tags Login
+// @Success 200 {application/json}
+// @Failure 400,401,500 {object} object
+// @Router /login [post]
 func HandleLogin(c *gin.Context) {
 	session := sessions.Default(c)
 	authenticated := session.Get("authenticated")

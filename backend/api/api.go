@@ -10,6 +10,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// ReturnBikesAPI ... User returns the bike.
+// @Summary User returns the bike.
+// @Description User returns the bike.
+// @Accept text/plain
+// @Param id path string true "bike_id in models.Bike"
+// @Tags Bikes
+// @Success 200 {application/json}
+// @Failure 400,401,404,500 {object} object
+// @Router /return/:id [patch]
 func ReturnBikeAPI(c *gin.Context) {
 	session := sessions.Default(c)
 
@@ -38,6 +47,15 @@ func ReturnBikeAPI(c *gin.Context) {
 	}
 }
 
+// RentBikeAPI ... User rents the bike.
+// @Summary User rents the bike.
+// @Description User rents the bike.
+// @Accept text/plain
+// @Param id path string true "bike_id in models.Bike"
+// @Tags Bikes
+// @Success 200 {application/json}
+// @Failure 400,401,404,500 {object} object
+// @Router /rent/:id [patch]
 func RentBikeAPI(c *gin.Context) {
 	session := sessions.Default(c)
 	user, err := queries.CheckUser(session.Get("user_name").(string))
@@ -69,6 +87,15 @@ func RentBikeAPI(c *gin.Context) {
 	}
 }
 
+// BikeByIdAPI ... Fetches a bike with a user-provided ID.
+// @Summary Fetches a bike with a user-provided ID.
+// @Description Fetches a bike with a user-provided ID.
+// @Accept text/plain
+// @Param id path string true "bike_id in models.Bike"
+// @Tags Bikes
+// @Success 200 {application/json}
+// @Failure 401,404,500 {object} object
+// @Router /bikes/:id [get]
 func BikeByIdAPI(c *gin.Context) {
 	session := sessions.Default(c)
 
@@ -87,6 +114,13 @@ func BikeByIdAPI(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{"bike_id": bike.Bike_id, "name": bike.Name, "rented": bike.Rented, "latitude": bike.Latitude, "longtitude": bike.Longtitude})
 }
 
+// GetBikesAPI ... Fetches all bikes from the database.
+// @Summary Fetches all bikes from the database.
+// @Description Fetches all bikes from the database.
+// @Tags Bikes
+// @Success 200 {models.Bike}
+// @Failure 401,500 {object} object
+// @Router /bikes [get]
 func GetBikesAPI(c *gin.Context) {
 	session := sessions.Default(c)
 
@@ -99,6 +133,13 @@ func GetBikesAPI(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, bikes)
 }
 
+// GetUserDataAPI ... Fetches the data of the logged in user.
+// @Summary Fetches the data of the logged in user.
+// @Description Fetches the data of the logged in user.
+// @Tags Users
+// @Success 200 {models.User}
+// @Failure 401,500 {object} object
+// @Router /fetchUserData [get]
 func GetUserDataAPI(c *gin.Context) {
 	session := sessions.Default(c)
 

@@ -10,6 +10,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// @title Bike renting service API
+// @version 1.0.0
+// @host localhost:5000
+// @BasePath /
+
 func main() {
 
 	router := gin.Default()
