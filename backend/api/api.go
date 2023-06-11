@@ -98,3 +98,18 @@ func GetBikesAPI(c *gin.Context) {
 	bikes := queries.FetchBikes()
 	c.IndentedJSON(http.StatusOK, bikes)
 }
+
+func GetUserDataAPI(c *gin.Context) {
+	session := sessions.Default(c)
+
+	if auth, _ := session.Get("authenticated").(bool); !auth {
+		fmt.Println("User is not authorized")
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
+		return
+	}
+
+	user, err := queries.CheckUser(session.Get("user_name").(string))
+	funcs.CheckError(err)
+
+	c.IndentedJSON(http.StatusOK, user)
+}

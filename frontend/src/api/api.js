@@ -2,10 +2,15 @@ import axios from 'axios'
 
 const url = 'http://localhost:3000'
 
-export const loginUser = async (credentials) => await axios.post(`${url}/login`, credentials, {withCredentials: true})
-export const logoutUser = async () => await axios.get(`${url}/logout`, {withCredentials: true})
-export const registerUser = () => axios.post(`${url}/register`)
-export const fetchBikes = () => axios.get(`${url}/bikes`, { withCredentials: true })
-export const fetchBikeByID = (bike_id) => axios.get(`${url}/bikes/${bike_id}`, { withCredentials: true })
-export const rentBike = (bike_id) => axios.patch(`${url}/rent/${bike_id}`, null, { withCredentials: true })
-export const returnBike = (bike_id) => axios.patch(`${url}/return/${bike_id}`, null, { withCredentials: true })
+const axiosInstance = axios.create({
+    withCredentials: true
+ })
+
+export const loginUser = async (credentials) => await axiosInstance.post(`${url}/login`, credentials)
+export const logoutUser = async () => await axiosInstance.get(`${url}/logout`)
+export const registerUser = () => axiosInstance.post(`${url}/register`)
+export const fetchBikes = () => axiosInstance.get(`${url}/bikes`)
+export const fetchBikeByID = (bike_id) => axiosInstance.get(`${url}/bikes/${bike_id}`)
+export const rentBike = (bike_id) => axiosInstance.patch(`${url}/rent/${bike_id}`, null)
+export const returnBike = (bike_id) => axiosInstance.patch(`${url}/return/${bike_id}`, null)
+export const fetchUserData = async (user_id) => await axiosInstance.get(`${url}/fetchUserData`, user_id)
