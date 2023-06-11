@@ -33,7 +33,9 @@ const Bikes = () => {
 
     const handleLogout = () => {
         logoutUser()
-        .then(console.log("logged out"))
+        .then((response) => {
+            console.log(response.headers)
+        })
         .catch(error => console.log(error))
         navigate("/login")
         localStorage.clear()
@@ -54,13 +56,13 @@ const Bikes = () => {
 
     const handleRentBike = (bike_id) => {
         rentBike(bike_id)
-        .then(response => console.log(response.message))
+        .then(response => console.log(response.data))
         .catch(error => console.log(error))
     }
 
     const handleReturnBike = (bike_id) => {
         returnBike(bike_id)
-        .then(response => console.log(response.message))
+        .then(response => console.log(response.data))
         .catch(error => console.log(error))
     }
 

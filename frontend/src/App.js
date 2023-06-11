@@ -5,6 +5,7 @@ import Bikes from './components/Bikes/Bikes';
 import Bike from './components/Bike/Bike';
 import Login from './components/Login/Login';
 import Logout from './components/Logout/Logout';
+import Return from './components/Return/Return';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/logout" element={<Logout />} />
                     <Route path="/bikes" element={<Bikes />} />
                     <Route path="/bike/:id" element={<Bike />} />
+                    <Route path="/return/:id" element={<Return />} />
                 </Routes>
             </BrowserRouter>
         </div>
