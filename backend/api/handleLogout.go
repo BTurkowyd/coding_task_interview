@@ -10,8 +10,7 @@ import (
 // HandleLogout ... Allows the user to log out from the service.
 // @Summary Allows the user to log out from the service.
 // @Description Allows the user to log out from the service.
-// @Tags Logout
-// @Success 200 {application/json}
+// @Tags Authorization
 // @Failure 500 {object} object
 // @Router /logout [get]
 func HandleLogout(c *gin.Context) {

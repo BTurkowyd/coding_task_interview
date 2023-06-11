@@ -1,0 +1,336 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Bike renting service API",
+        "contact": {},
+        "version": "1.0.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "paths": {
+        "/bikes": {
+            "get": {
+                "description": "Fetches all bikes from the database.",
+                "tags": [
+                    "Bikes"
+                ],
+                "summary": "Fetches all bikes from the database.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Bike"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/bikes/:id": {
+            "get": {
+                "description": "Fetches a bike with a user-provided ID.",
+                "consumes": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Bikes"
+                ],
+                "summary": "Fetches a bike with a user-provided ID.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "bike_id in models.Bike",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/fetchUserData": {
+            "get": {
+                "description": "Fetches the data of the logged in user.",
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Fetches the data of the logged in user.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "Handles the login procedure to the service.",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Handles the login procedure to the service.",
+                "parameters": [
+                    {
+                        "description": "bike_id in models.LoginRequest",
+                        "name": "id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "get": {
+                "description": "Allows the user to log out from the service.",
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Allows the user to log out from the service.",
+                "responses": {
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/rent/:id": {
+            "patch": {
+                "description": "User rents the bike.",
+                "consumes": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Bikes"
+                ],
+                "summary": "User rents the bike.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "bike_id in models.Bike",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/return/:id": {
+            "patch": {
+                "description": "User returns the bike.",
+                "consumes": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Bikes"
+                ],
+                "summary": "User returns the bike.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "bike_id in models.Bike",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Bike": {
+            "type": "object",
+            "properties": {
+                "bike_id": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longtitude": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "rented": {
+                    "type": "boolean"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.LoginRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "bike_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "renting": {
+                    "type": "boolean"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -16,7 +16,7 @@ import (
 // @Accept text/plain
 // @Param id path string true "bike_id in models.Bike"
 // @Tags Bikes
-// @Success 200 {application/json}
+// @Success 200 {object} object
 // @Failure 400,401,404,500 {object} object
 // @Router /return/:id [patch]
 func ReturnBikeAPI(c *gin.Context) {
@@ -53,7 +53,7 @@ func ReturnBikeAPI(c *gin.Context) {
 // @Accept text/plain
 // @Param id path string true "bike_id in models.Bike"
 // @Tags Bikes
-// @Success 200 {application/json}
+// @Success 200 {object} object
 // @Failure 400,401,404,500 {object} object
 // @Router /rent/:id [patch]
 func RentBikeAPI(c *gin.Context) {
@@ -93,7 +93,7 @@ func RentBikeAPI(c *gin.Context) {
 // @Accept text/plain
 // @Param id path string true "bike_id in models.Bike"
 // @Tags Bikes
-// @Success 200 {application/json}
+// @Success 200 {object} object
 // @Failure 401,404,500 {object} object
 // @Router /bikes/:id [get]
 func BikeByIdAPI(c *gin.Context) {
@@ -118,7 +118,7 @@ func BikeByIdAPI(c *gin.Context) {
 // @Summary Fetches all bikes from the database.
 // @Description Fetches all bikes from the database.
 // @Tags Bikes
-// @Success 200 {models.Bike}
+// @Success 200 {object} models.Bike
 // @Failure 401,500 {object} object
 // @Router /bikes [get]
 func GetBikesAPI(c *gin.Context) {
@@ -137,7 +137,7 @@ func GetBikesAPI(c *gin.Context) {
 // @Summary Fetches the data of the logged in user.
 // @Description Fetches the data of the logged in user.
 // @Tags Users
-// @Success 200 {models.User}
+// @Success 200 {object} models.User
 // @Failure 401,500 {object} object
 // @Router /fetchUserData [get]
 func GetUserDataAPI(c *gin.Context) {

@@ -1,0 +1,220 @@
+basePath: /
+definitions:
+  models.Bike:
+    properties:
+      bike_id:
+        type: string
+      latitude:
+        type: number
+      longtitude:
+        type: number
+      name:
+        type: string
+      rented:
+        type: boolean
+      user_id:
+        type: string
+    type: object
+  models.LoginRequest:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  models.User:
+    properties:
+      bike_id:
+        type: string
+      name:
+        type: string
+      renting:
+        type: boolean
+      user_id:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  title: Bike renting service API
+  version: 1.0.0
+paths:
+  /bikes:
+    get:
+      description: Fetches all bikes from the database.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Bike'
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: Fetches all bikes from the database.
+      tags:
+      - Bikes
+  /bikes/:id:
+    get:
+      consumes:
+      - text/plain
+      description: Fetches a bike with a user-provided ID.
+      parameters:
+      - description: bike_id in models.Bike
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: Fetches a bike with a user-provided ID.
+      tags:
+      - Bikes
+  /fetchUserData:
+    get:
+      description: Fetches the data of the logged in user.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: Fetches the data of the logged in user.
+      tags:
+      - Users
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Handles the login procedure to the service.
+      parameters:
+      - description: bike_id in models.LoginRequest
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginRequest'
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: Handles the login procedure to the service.
+      tags:
+      - Authorization
+  /logout:
+    get:
+      description: Allows the user to log out from the service.
+      responses:
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: Allows the user to log out from the service.
+      tags:
+      - Authorization
+  /rent/:id:
+    patch:
+      consumes:
+      - text/plain
+      description: User rents the bike.
+      parameters:
+      - description: bike_id in models.Bike
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: User rents the bike.
+      tags:
+      - Bikes
+  /return/:id:
+    patch:
+      consumes:
+      - text/plain
+      description: User returns the bike.
+      parameters:
+      - description: bike_id in models.Bike
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: User returns the bike.
+      tags:
+      - Bikes
+swagger: "2.0"
