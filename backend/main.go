@@ -49,6 +49,6 @@ func main() {
 	router.PATCH("/rent/:id", api.RentBikeAPI)
 	router.PATCH("/return/:id", api.ReturnBikeAPI)
 	router.GET("/swaggerAPI/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	router.Run("localhost:3000")
+	router.Run("0.0.0.0:3000")
 
 }
