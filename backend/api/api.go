@@ -2,6 +2,7 @@ package api
 
 import (
 	"bike_renting_system/funcs"
+	"bike_renting_system/models"
 	"bike_renting_system/queries"
 	"fmt"
 	"net/http"
@@ -17,7 +18,10 @@ import (
 // @Param id path string true "bike_id in models.Bike"
 // @Tags Bikes
 // @Success 200 {object} object
-// @Failure 400,401,404,500 {object} object
+// @Failure 400 {object} models.BadRequest
+// @Failure 401 {object} models.Unauthorized
+// @Failure 404 {object} models.NotFound
+// @Failure 500 {object} models.ServerError
 // @Router /return/:id [patch]
 func ReturnBikeAPI(c *gin.Context) {
 	session := sessions.Default(c)
@@ -54,7 +58,10 @@ func ReturnBikeAPI(c *gin.Context) {
 // @Param id path string true "bike_id in models.Bike"
 // @Tags Bikes
 // @Success 200 {object} object
-// @Failure 400,401,404,500 {object} object
+// @Failure 400 {object} models.BadRequest
+// @Failure 401 {object} models.Unauthorized
+// @Failure 404 {object} models.NotFound
+// @Failure 500 {object} models.ServerError
 // @Router /rent/:id [patch]
 func RentBikeAPI(c *gin.Context) {
 	session := sessions.Default(c)
@@ -94,7 +101,9 @@ func RentBikeAPI(c *gin.Context) {
 // @Param id path string true "bike_id in models.Bike"
 // @Tags Bikes
 // @Success 200 {object} object
-// @Failure 401,404,500 {object} object
+// @Failure 401 {object} models.Unauthorized
+// @Failure 404 {object} models.NotFound
+// @Failure 500 {object} models.ServerError
 // @Router /bikes/:id [get]
 func BikeByIdAPI(c *gin.Context) {
 	session := sessions.Default(c)
@@ -119,13 +128,14 @@ func BikeByIdAPI(c *gin.Context) {
 // @Description Fetches all bikes from the database.
 // @Tags Bikes
 // @Success 200 {object} models.Bike
-// @Failure 401,500 {object} object
+// @Failure 401 {object} models.Unauthorized
+// @Failure 500 {object} models.ServerError
 // @Router /bikes [get]
 func GetBikesAPI(c *gin.Context) {
 	session := sessions.Default(c)
 
 	if auth, _ := session.Get("authenticated").(bool); !auth {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
+		c.JSON(http.StatusUnauthorized, models.Unauthorized{Message: "Unauthorized"})
 		return
 	}
 
@@ -138,7 +148,8 @@ func GetBikesAPI(c *gin.Context) {
 // @Description Fetches the data of the logged in user.
 // @Tags Users
 // @Success 200 {object} models.User
-// @Failure 401,500 {object} object
+// @Failure 401 {object} models.Unauthorized
+// @Failure 500 {object} models.ServerError
 // @Router /fetchUserData [get]
 func GetUserDataAPI(c *gin.Context) {
 	session := sessions.Default(c)

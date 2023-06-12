@@ -1,5 +1,11 @@
 basePath: /
 definitions:
+  models.BadRequest:
+    properties:
+      message:
+        example: 400 Bad Request
+        type: string
+    type: object
   models.Bike:
     properties:
       bike_id:
@@ -20,6 +26,24 @@ definitions:
       name:
         type: string
       password:
+        type: string
+    type: object
+  models.NotFound:
+    properties:
+      message:
+        example: 404 Not Found
+        type: string
+    type: object
+  models.ServerError:
+    properties:
+      message:
+        example: 500 Server Error
+        type: string
+    type: object
+  models.Unauthorized:
+    properties:
+      message:
+        example: 401 Unauthorized
         type: string
     type: object
   models.User:
@@ -50,11 +74,11 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            type: object
+            $ref: '#/definitions/models.Unauthorized'
         "500":
           description: Internal Server Error
           schema:
-            type: object
+            $ref: '#/definitions/models.ServerError'
       summary: Fetches all bikes from the database.
       tags:
       - Bikes
@@ -77,15 +101,15 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            type: object
+            $ref: '#/definitions/models.Unauthorized'
         "404":
           description: Not Found
           schema:
-            type: object
+            $ref: '#/definitions/models.NotFound'
         "500":
           description: Internal Server Error
           schema:
-            type: object
+            $ref: '#/definitions/models.ServerError'
       summary: Fetches a bike with a user-provided ID.
       tags:
       - Bikes
@@ -100,11 +124,11 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            type: object
+            $ref: '#/definitions/models.Unauthorized'
         "500":
           description: Internal Server Error
           schema:
-            type: object
+            $ref: '#/definitions/models.ServerError'
       summary: Fetches the data of the logged in user.
       tags:
       - Users
@@ -116,7 +140,7 @@ paths:
       parameters:
       - description: bike_id in models.LoginRequest
         in: body
-        name: id
+        name: credentials
         required: true
         schema:
           $ref: '#/definitions/models.LoginRequest'
@@ -166,19 +190,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: object
+            $ref: '#/definitions/models.BadRequest'
         "401":
           description: Unauthorized
           schema:
-            type: object
+            $ref: '#/definitions/models.Unauthorized'
         "404":
           description: Not Found
           schema:
-            type: object
+            $ref: '#/definitions/models.NotFound'
         "500":
           description: Internal Server Error
           schema:
-            type: object
+            $ref: '#/definitions/models.ServerError'
       summary: User rents the bike.
       tags:
       - Bikes
@@ -201,19 +225,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: object
+            $ref: '#/definitions/models.BadRequest'
         "401":
           description: Unauthorized
           schema:
-            type: object
+            $ref: '#/definitions/models.Unauthorized'
         "404":
           description: Not Found
           schema:
-            type: object
+            $ref: '#/definitions/models.NotFound'
         "500":
           description: Internal Server Error
           schema:
-            type: object
+            $ref: '#/definitions/models.ServerError'
       summary: User returns the bike.
       tags:
       - Bikes

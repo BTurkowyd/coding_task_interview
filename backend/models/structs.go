@@ -21,3 +21,19 @@ type LoginRequest struct {
 	Name     string `json:"name"`
 	Password string `json:"password"`
 }
+
+type Unauthorized struct {
+	Message string `json:"message" example:"401 Unauthorized"`
+}
+
+type BadRequest struct {
+	Message string `json:"message" example:"400 Bad Request"`
+}
+
+type NotFound struct {
+	Message string `json:"message" example:"404 Not Found"`
+}
+
+type ServerError struct {
+	Message string `json:"message" example:"500 Server Error"`
+}

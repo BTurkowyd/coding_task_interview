@@ -14,7 +14,7 @@ import (
 // @Summary Handles the login procedure to the service.
 // @Description Handles the login procedure to the service.
 // @Accept application/json
-// @Param id body models.LoginRequest true "bike_id in models.LoginRequest"
+// @Param credentials body models.LoginRequest true "bike_id in models.LoginRequest"
 // @Tags Authorization
 // @Failure 400,401,500 {object} object
 // @Router /login [post]

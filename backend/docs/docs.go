@@ -33,13 +33,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.Unauthorized"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.ServerError"
                         }
                     }
                 }
@@ -74,19 +74,19 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.Unauthorized"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.NotFound"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.ServerError"
                         }
                     }
                 }
@@ -109,13 +109,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.Unauthorized"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.ServerError"
                         }
                     }
                 }
@@ -134,7 +134,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "bike_id in models.LoginRequest",
-                        "name": "id",
+                        "name": "credentials",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -210,25 +210,25 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.BadRequest"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.Unauthorized"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.NotFound"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.ServerError"
                         }
                     }
                 }
@@ -263,25 +263,25 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.BadRequest"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.Unauthorized"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.NotFound"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.ServerError"
                         }
                     }
                 }
@@ -289,6 +289,15 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.BadRequest": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "400 Bad Request"
+                }
+            }
+        },
         "models.Bike": {
             "type": "object",
             "properties": {
@@ -320,6 +329,33 @@ const docTemplate = `{
                 },
                 "password": {
                     "type": "string"
+                }
+            }
+        },
+        "models.NotFound": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "404 Not Found"
+                }
+            }
+        },
+        "models.ServerError": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "500 Server Error"
+                }
+            }
+        },
+        "models.Unauthorized": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "401 Unauthorized"
                 }
             }
         },
