@@ -27,19 +27,22 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Bike"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Bike"
+                            }
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/models.Unauthorized"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/models.Response"
                         }
                     }
                 }
@@ -68,25 +71,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.BikeResponseStruct"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/models.Unauthorized"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/models.NotFound"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/models.Response"
                         }
                     }
                 }
@@ -109,13 +112,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/models.Unauthorized"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/models.Response"
                         }
                     }
                 }
@@ -133,7 +136,7 @@ const docTemplate = `{
                 "summary": "Handles the login procedure to the service.",
                 "parameters": [
                     {
-                        "description": "bike_id in models.LoginRequest",
+                        "description": "name and password values in models.User",
                         "name": "credentials",
                         "in": "body",
                         "required": true,
@@ -143,22 +146,28 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserResponseStruct"
+                        }
+                    },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.Response"
                         }
                     }
                 }
@@ -175,7 +184,7 @@ const docTemplate = `{
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.Response"
                         }
                     }
                 }
@@ -204,31 +213,31 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.BadRequest"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/models.Unauthorized"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/models.NotFound"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/models.Response"
                         }
                     }
                 }
@@ -257,31 +266,31 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.BadRequest"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/models.Unauthorized"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/models.NotFound"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/models.Response"
                         }
                     }
                 }
@@ -289,15 +298,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.BadRequest": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string",
-                    "example": "400 Bad Request"
-                }
-            }
-        },
         "models.Bike": {
             "type": "object",
             "properties": {
@@ -321,6 +321,26 @@ const docTemplate = `{
                 }
             }
         },
+        "models.BikeResponseStruct": {
+            "type": "object",
+            "properties": {
+                "bike_id": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longtitude": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "rented": {
+                    "type": "boolean"
+                }
+            }
+        },
         "models.LoginRequest": {
             "type": "object",
             "properties": {
@@ -332,30 +352,16 @@ const docTemplate = `{
                 }
             }
         },
-        "models.NotFound": {
+        "models.Response": {
             "type": "object",
             "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 418
+                },
                 "message": {
                     "type": "string",
-                    "example": "404 Not Found"
-                }
-            }
-        },
-        "models.ServerError": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string",
-                    "example": "500 Server Error"
-                }
-            }
-        },
-        "models.Unauthorized": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string",
-                    "example": "401 Unauthorized"
+                    "example": "A simple message briefly explaining the issue"
                 }
             }
         },
@@ -373,6 +379,20 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "string"
+                }
+            }
+        },
+        "models.UserResponseStruct": {
+            "type": "object",
+            "properties": {
+                "bike_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "renting": {
+                    "type": "boolean"
                 }
             }
         }

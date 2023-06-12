@@ -14,9 +14,12 @@ import (
 // @Summary Handles the login procedure to the service.
 // @Description Handles the login procedure to the service.
 // @Accept application/json
-// @Param credentials body models.LoginRequest true "bike_id in models.LoginRequest"
+// @Param credentials body models.LoginRequest true "name and password values in models.User"
 // @Tags Authorization
-// @Failure 400,401,500 {object} object
+// @Success 200 {object} models.UserResponseStruct
+// @Failure 400 {object} models.Response
+// @Failure 401 {object} models.Response
+// @Failure 500 {object} models.Response
 // @Router /login [post]
 func HandleLogin(c *gin.Context) {
 	session := sessions.Default(c)
@@ -27,13 +30,12 @@ func HandleLogin(c *gin.Context) {
 	}
 
 	if authenticated == true {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Another user is already logged in. Please logout first."})
-		fmt.Println("User is already logged in")
+		c.JSON(http.StatusBadRequest, models.Response{Code: http.StatusBadRequest, Message: "Another user is already logged in. Please log out first"})
 	} else {
 		var loginRequest models.LoginRequest
 		if err := c.ShouldBindJSON(&loginRequest); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			fmt.Println("Wrong credentials")
+			fmt.Println("User is already logged in")
+			c.JSON(http.StatusBadRequest, models.Response{Code: http.StatusBadRequest, Message: err.Error()})
 			return
 		}
 
@@ -42,8 +44,7 @@ func HandleLogin(c *gin.Context) {
 
 		user, err := queries.CheckUser(name)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "Such user doesn't exist."})
-			fmt.Println("User doesn't exist")
+			c.JSON(http.StatusBadRequest, models.Response{Code: http.StatusBadRequest, Message: "Such user doesn't exist"})
 			panic(err)
 		}
 
@@ -52,25 +53,14 @@ func HandleLogin(c *gin.Context) {
 			session.Set("authenticated", authenticated)
 			session.Set("user_name", user.Name)
 			session.Save()
-
 			c.Status(http.StatusOK)
-			c.JSON(http.StatusOK, gin.H{"name": user.Name, "renting": user.Renting, "bike_id": user.Bike_id})
-			fmt.Println("Login successful")
+			c.JSON(http.StatusOK, models.UserResponseStruct{Name: user.Name, Renting: user.Renting, Bike_id: user.Bike_id})
 		} else {
 			authenticated := false
 			session.Set("authenticated", authenticated)
 			session.Save()
-			c.JSON(http.StatusUnauthorized, gin.H{"message": "Login failed"})
-			fmt.Println("Login failed")
+			c.JSON(http.StatusUnauthorized, models.Response{Code: http.StatusUnauthorized, Message: "Login failed"})
 		}
 	}
-
-}
-
-func GetCookieSession(c *gin.Context) {
-	session := sessions.Default(c)
-
-	session.Set("username", "John Doe")
-	session.Save()
 
 }

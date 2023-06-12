@@ -1,11 +1,5 @@
 basePath: /
 definitions:
-  models.BadRequest:
-    properties:
-      message:
-        example: 400 Bad Request
-        type: string
-    type: object
   models.Bike:
     properties:
       bike_id:
@@ -21,6 +15,19 @@ definitions:
       user_id:
         type: string
     type: object
+  models.BikeResponseStruct:
+    properties:
+      bike_id:
+        type: string
+      latitude:
+        type: number
+      longtitude:
+        type: number
+      name:
+        type: string
+      rented:
+        type: boolean
+    type: object
   models.LoginRequest:
     properties:
       name:
@@ -28,22 +35,13 @@ definitions:
       password:
         type: string
     type: object
-  models.NotFound:
+  models.Response:
     properties:
+      code:
+        example: 418
+        type: integer
       message:
-        example: 404 Not Found
-        type: string
-    type: object
-  models.ServerError:
-    properties:
-      message:
-        example: 500 Server Error
-        type: string
-    type: object
-  models.Unauthorized:
-    properties:
-      message:
-        example: 401 Unauthorized
+        example: A simple message briefly explaining the issue
         type: string
     type: object
   models.User:
@@ -56,6 +54,15 @@ definitions:
         type: boolean
       user_id:
         type: string
+    type: object
+  models.UserResponseStruct:
+    properties:
+      bike_id:
+        type: string
+      name:
+        type: string
+      renting:
+        type: boolean
     type: object
 host: localhost:3000
 info:
@@ -70,15 +77,17 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Bike'
+            items:
+              $ref: '#/definitions/models.Bike'
+            type: array
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/models.Unauthorized'
+            $ref: '#/definitions/models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.ServerError'
+            $ref: '#/definitions/models.Response'
       summary: Fetches all bikes from the database.
       tags:
       - Bikes
@@ -97,19 +106,19 @@ paths:
         "200":
           description: OK
           schema:
-            type: object
+            $ref: '#/definitions/models.BikeResponseStruct'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/models.Unauthorized'
+            $ref: '#/definitions/models.Response'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/models.NotFound'
+            $ref: '#/definitions/models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.ServerError'
+            $ref: '#/definitions/models.Response'
       summary: Fetches a bike with a user-provided ID.
       tags:
       - Bikes
@@ -124,11 +133,11 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/models.Unauthorized'
+            $ref: '#/definitions/models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.ServerError'
+            $ref: '#/definitions/models.Response'
       summary: Fetches the data of the logged in user.
       tags:
       - Users
@@ -138,25 +147,29 @@ paths:
       - application/json
       description: Handles the login procedure to the service.
       parameters:
-      - description: bike_id in models.LoginRequest
+      - description: name and password values in models.User
         in: body
         name: credentials
         required: true
         schema:
           $ref: '#/definitions/models.LoginRequest'
       responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponseStruct'
         "400":
           description: Bad Request
           schema:
-            type: object
+            $ref: '#/definitions/models.Response'
         "401":
           description: Unauthorized
           schema:
-            type: object
+            $ref: '#/definitions/models.Response'
         "500":
           description: Internal Server Error
           schema:
-            type: object
+            $ref: '#/definitions/models.Response'
       summary: Handles the login procedure to the service.
       tags:
       - Authorization
@@ -167,7 +180,7 @@ paths:
         "500":
           description: Internal Server Error
           schema:
-            type: object
+            $ref: '#/definitions/models.Response'
       summary: Allows the user to log out from the service.
       tags:
       - Authorization
@@ -186,23 +199,23 @@ paths:
         "200":
           description: OK
           schema:
-            type: object
+            $ref: '#/definitions/models.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.BadRequest'
+            $ref: '#/definitions/models.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/models.Unauthorized'
+            $ref: '#/definitions/models.Response'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/models.NotFound'
+            $ref: '#/definitions/models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.ServerError'
+            $ref: '#/definitions/models.Response'
       summary: User rents the bike.
       tags:
       - Bikes
@@ -221,23 +234,23 @@ paths:
         "200":
           description: OK
           schema:
-            type: object
+            $ref: '#/definitions/models.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.BadRequest'
+            $ref: '#/definitions/models.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/models.Unauthorized'
+            $ref: '#/definitions/models.Response'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/models.NotFound'
+            $ref: '#/definitions/models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.ServerError'
+            $ref: '#/definitions/models.Response'
       summary: User returns the bike.
       tags:
       - Bikes

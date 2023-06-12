@@ -17,17 +17,17 @@ import (
 // @Accept text/plain
 // @Param id path string true "bike_id in models.Bike"
 // @Tags Bikes
-// @Success 200 {object} object
-// @Failure 400 {object} models.BadRequest
-// @Failure 401 {object} models.Unauthorized
-// @Failure 404 {object} models.NotFound
-// @Failure 500 {object} models.ServerError
+// @Success 200 {object} models.Response
+// @Failure 400 {object} models.Response
+// @Failure 401 {object} models.Response
+// @Failure 404 {object} models.Response
+// @Failure 500 {object} models.Response
 // @Router /return/:id [patch]
 func ReturnBikeAPI(c *gin.Context) {
 	session := sessions.Default(c)
 
 	if auth, _ := session.Get("authenticated").(bool); !auth {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
+		c.JSON(http.StatusUnauthorized, models.Response{Code: http.StatusUnauthorized, Message: "Unauthorized"})
 		return
 	}
 
@@ -35,18 +35,18 @@ func ReturnBikeAPI(c *gin.Context) {
 	bike, err := queries.FetchBikebyID(id)
 
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Bike not found"})
+		c.IndentedJSON(http.StatusNotFound, models.Response{Code: http.StatusNotFound, Message: "Bike not found"})
 		return
 	} else {
 		if bike.User_name == session.Get("user_name").(string) {
 			if !bike.Rented {
-				c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "This bike can't be returned"})
+				c.IndentedJSON(http.StatusBadRequest, models.Response{Code: http.StatusBadRequest, Message: "This bike can't be returned"})
 			} else {
 				queries.ReturnBike(session.Get("user_name").(string), bike)
-				c.IndentedJSON(http.StatusOK, gin.H{"message": fmt.Sprintf("Bike %s was returned by %s", bike.Name, session.Get("user_name").(string))})
+				c.IndentedJSON(http.StatusOK, models.Response{Code: http.StatusOK, Message: fmt.Sprintf("Bike %s was returned by %s", bike.Name, session.Get("user_name").(string))})
 			}
 		} else {
-			c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "This user can't return this bike"})
+			c.IndentedJSON(http.StatusBadRequest, models.Response{Code: http.StatusBadRequest, Message: "Logged in user can't return this bike"})
 		}
 	}
 }
@@ -57,11 +57,11 @@ func ReturnBikeAPI(c *gin.Context) {
 // @Accept text/plain
 // @Param id path string true "bike_id in models.Bike"
 // @Tags Bikes
-// @Success 200 {object} object
-// @Failure 400 {object} models.BadRequest
-// @Failure 401 {object} models.Unauthorized
-// @Failure 404 {object} models.NotFound
-// @Failure 500 {object} models.ServerError
+// @Success 200 {object} models.Response
+// @Failure 400 {object} models.Response
+// @Failure 401 {object} models.Response
+// @Failure 404 {object} models.Response
+// @Failure 500 {object} models.Response
 // @Router /rent/:id [patch]
 func RentBikeAPI(c *gin.Context) {
 	session := sessions.Default(c)
@@ -69,7 +69,7 @@ func RentBikeAPI(c *gin.Context) {
 	funcs.CheckError(err)
 
 	if auth, _ := session.Get("authenticated").(bool); !auth {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
+		c.JSON(http.StatusUnauthorized, models.Response{Code: http.StatusUnauthorized, Message: "Unauthorized"})
 		return
 	}
 
@@ -77,18 +77,18 @@ func RentBikeAPI(c *gin.Context) {
 	bike, err := queries.FetchBikebyID(id)
 
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Bike not found"})
+		c.IndentedJSON(http.StatusNotFound, models.Response{Code: http.StatusNotFound, Message: "Bike not found"})
 		return
 	} else {
 		if user.Renting {
-			c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "This user already rents another bike."})
+			c.IndentedJSON(http.StatusBadRequest, models.Response{Code: http.StatusBadRequest, Message: "Logged in user already rents another bike"})
 
 		} else {
 			if bike.Rented {
-				c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "This bike can't be rented"})
+				c.IndentedJSON(http.StatusBadRequest, models.Response{Code: http.StatusBadRequest, Message: "UThis bike is rented by another user"})
 			} else {
 				queries.RentBike(session.Get("user_name").(string), bike)
-				c.IndentedJSON(http.StatusOK, gin.H{"message": fmt.Sprintf("Bike %s is rented to %s", bike.Name, session.Get("user_name").(string))})
+				c.IndentedJSON(http.StatusOK, models.Response{Code: http.StatusOK, Message: fmt.Sprintf("Bike %s is rented by %s", bike.Name, session.Get("user_name").(string))})
 			}
 		}
 	}
@@ -100,16 +100,16 @@ func RentBikeAPI(c *gin.Context) {
 // @Accept text/plain
 // @Param id path string true "bike_id in models.Bike"
 // @Tags Bikes
-// @Success 200 {object} object
-// @Failure 401 {object} models.Unauthorized
-// @Failure 404 {object} models.NotFound
-// @Failure 500 {object} models.ServerError
+// @Success 200 {object} models.BikeResponseStruct
+// @Failure 401 {object} models.Response
+// @Failure 404 {object} models.Response
+// @Failure 500 {object} models.Response
 // @Router /bikes/:id [get]
 func BikeByIdAPI(c *gin.Context) {
 	session := sessions.Default(c)
 
 	if auth, _ := session.Get("authenticated").(bool); !auth {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
+		c.JSON(http.StatusUnauthorized, models.Response{Code: http.StatusUnauthorized, Message: "Unauthorized"})
 		return
 	}
 
@@ -117,25 +117,25 @@ func BikeByIdAPI(c *gin.Context) {
 	bike, err := queries.FetchBikebyID(id)
 
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Bike not found"})
+		c.IndentedJSON(http.StatusNotFound, models.Response{Code: http.StatusNotFound, Message: "Bike not found"})
 		return
 	}
-	c.IndentedJSON(http.StatusOK, gin.H{"bike_id": bike.Bike_id, "name": bike.Name, "rented": bike.Rented, "latitude": bike.Latitude, "longtitude": bike.Longtitude})
+	c.IndentedJSON(http.StatusOK, models.BikeResponseStruct{Bike_id: bike.Bike_id, Name: bike.Name, Rented: bike.Rented, Latitude: bike.Latitude, Longtitude: bike.Longtitude})
 }
 
 // GetBikesAPI ... Fetches all bikes from the database.
 // @Summary Fetches all bikes from the database.
 // @Description Fetches all bikes from the database.
 // @Tags Bikes
-// @Success 200 {object} models.Bike
-// @Failure 401 {object} models.Unauthorized
-// @Failure 500 {object} models.ServerError
+// @Success 200 {array} models.Bike
+// @Failure 401 {object} models.Response
+// @Failure 500 {object} models.Response
 // @Router /bikes [get]
 func GetBikesAPI(c *gin.Context) {
 	session := sessions.Default(c)
 
 	if auth, _ := session.Get("authenticated").(bool); !auth {
-		c.JSON(http.StatusUnauthorized, models.Unauthorized{Message: "Unauthorized"})
+		c.JSON(http.StatusUnauthorized, models.Response{Code: http.StatusUnauthorized, Message: "Unauthorized"})
 		return
 	}
 
@@ -148,15 +148,15 @@ func GetBikesAPI(c *gin.Context) {
 // @Description Fetches the data of the logged in user.
 // @Tags Users
 // @Success 200 {object} models.User
-// @Failure 401 {object} models.Unauthorized
-// @Failure 500 {object} models.ServerError
+// @Failure 401 {object} models.Response
+// @Failure 500 {object} models.Response
 // @Router /fetchUserData [get]
 func GetUserDataAPI(c *gin.Context) {
 	session := sessions.Default(c)
 
 	if auth, _ := session.Get("authenticated").(bool); !auth {
 		fmt.Println("User is not authorized")
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
+		c.JSON(http.StatusUnauthorized, models.Response{Code: http.StatusUnauthorized, Message: "Unauthorized"})
 		return
 	}
 
