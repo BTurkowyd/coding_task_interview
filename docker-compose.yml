@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  frontend:
+    container_name: bike_renting_frontend
+    build: frontend/
+    ports:
+      - "3001:3000"
+  backend:
+    container_name: bike_renting_backend
+    depends_on:
+      - database
+    build: backend/
+    ports:
+      - "3000:3000"
+  database:
+    container_name: postgres_db
+    build: database/
+    ports:
+      - "5432:5432"
