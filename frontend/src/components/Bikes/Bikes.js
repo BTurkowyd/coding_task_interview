@@ -10,7 +10,7 @@ const Bikes = () => {
     const [bikes, setBikes] = useState([])
     const [user, setUser] = useState("")
 
-    let sorted_bikes = bikes.sort((a,b) => (a.bike_id > b.bike_id) ? 1 : ((b.bike_id > a.bike_id) ? -1 : 0))
+    let sorted_bikes = bikes.sort((a, b) => (a.bike_id > b.bike_id) ? 1 : ((b.bike_id > a.bike_id) ? -1 : 0))
 
 
     useEffect(() => {
@@ -56,26 +56,114 @@ const Bikes = () => {
 
     }
 
+    const styleBike = (user, bike) => {
+        if (bike.user_id === user.name) {
+            return (
+                <div key={bike.bike_id} className="row rented-by-you">
+                    <div className="cell">
+                        {bike.bike_id}
+                    </div>
+                    <div className="cell">
+                        <a href={"/bike/" + bike.bike_id}>{bike.name}</a>
+                    </div>
+                    <div className="cell">
+                        {bike.latitude}
+                    </div>
+                    <div className="cell">
+                        {bike.longtitude}
+                    </div>
+                    <div className="cell">
+                        <button onClick={() => handleReturnBike(bike.bike_id)}>Return bike</button>
+                    </div>
+                </div>
+            )
+        } else if (bike.user_id != user.name && bike.rented) {
+            return (
+                <div key={bike.bike_id} className="row rented-by-others">
+                    <div className="cell">
+                        {bike.bike_id}
+                    </div>
+                    <div className="cell">
+                        <a href={"/bike/" + bike.bike_id}>{bike.name}</a>
+                    </div>
+                    <div className="cell">
+                        {bike.latitude}
+                    </div>
+                    <div className="cell">
+                        {bike.longtitude}
+                    </div>
+                    <div className="cell">
+                        Not available
+                    </div>
+                </div>
+            )
+        } else if (bike.rented === false) {
+            return (
+                <div key={bike.bike_id} className="row available">
+                    <div className="cell">
+                        {bike.bike_id}
+                    </div>
+                    <div className="cell">
+                        <a href={"/bike/" + bike.bike_id}>{bike.name}</a>
+                    </div>
+                    <div className="cell">
+                        {bike.latitude}
+                    </div>
+                    <div className="cell">
+                        {bike.longtitude}
+                    </div>
+                    <div className="cell">
+                        {(bike.rented === false && user.renting === "false") && <button onClick={() => handleRentBike(bike.bike_id)}>Rent bike</button>}
+                    </div>
+                </div>
+            )
+        }
+        // else {
+        //     return (
+        //         <div key={bike.bike_id} className="row">
+        //         <div className="cell">
+        //             {bike.bike_id}
+        //         </div>
+        //         <div className="cell">
+        //             <a href={"/bike/" + bike.bike_id}>{bike.name}</a>
+        //         </div>
+        //         <div className="cell">
+        //             {bike.latitude}
+        //         </div>
+        //         <div className="cell">
+        //             {bike.longtitude}
+        //         </div>
+        //         <div className="cell">
+        //             <button onClick={() => handleRentBike(bike.bike_id)}>Rent bike</button>
+        //         </div>
+        //     </div>
+        //     )
+        // }
+    }
+
     const displayBikes = () => {
-        return (sorted_bikes.map(item => (
-            <div key={item.bike_id} className="row">
-                <div className="cell">
-                {item.bike_id}
-                </div>
-                <div className="cell">
-                <a href={"/bike/"+item.bike_id}>{item.name}</a>
-                </div>
-                <div className="cell">
-                {item.latitude}
-                </div>                
-                <div className="cell">
-                {item.longtitude}
-                </div>
-                <div className="cell">
-                {item.user_id === user["name"] && <button onClick={() => handleReturnBike(item.bike_id)}>Return bike</button>}
-                {(item.rented === false && user["renting"] === "false") && <button onClick={() => handleRentBike(item.bike_id)}>Rent bike</button>}
-                </div>
+        return (sorted_bikes.map(bike => (
+            <div>
+                {styleBike(user, bike)}
             </div>
+            // <div key={item.bike_id} className="row">
+            //     <div className="cell">
+            //         {item.bike_id}
+            //     </div>
+            //     <div className="cell">
+            //         <a href={"/bike/" + item.bike_id}>{item.name}</a>
+            //     </div>
+            //     <div className="cell">
+            //         {item.latitude}
+            //     </div>
+            //     <div className="cell">
+            //         {item.longtitude}
+            //     </div>
+            //     <div className="cell">
+            //         {item.user_id === user["name"] && <button onClick={() => handleReturnBike(item.bike_id)}>Return bike</button>}
+            //         {(item.rented === false && user["renting"] === "false") && <button onClick={() => handleRentBike(item.bike_id)}>Rent bike</button>}
+            //     </div>
+            // </div>
         )))
     }
 
