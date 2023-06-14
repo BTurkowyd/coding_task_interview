@@ -1,0 +1,37 @@
+.table {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+.row {
+  display: flex;
+  /* flex-basis: 33.3%; */
+  padding: 10px;
+  box-sizing: border-box;
+  flex-direction: row;
+}
+
+.cell {
+  display: flex;
+  flex-basis: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.table-header {
+  font-weight: 700;
+}
+
+.rented-by-you {
+  background-color: lightgreen;
+}
+
+.rented-by-others {
+  background-color: lightcoral;
+}
+
+.available {
+  background-color: grey;
+}

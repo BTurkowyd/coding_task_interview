@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import { logoutUser } from "../../api/api";
+import { useNavigate } from "react-router-dom";
 
 
 const Logout = () => {
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         logoutUser()
