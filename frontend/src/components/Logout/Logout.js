@@ -8,7 +8,7 @@ const Logout = () => {
         logoutUser()
         .then(console.log("logged out"))
         .catch(error => console.log(error))
-        // navigate("/login")
+        navigate("/login")
         localStorage.clear()
     }, [])
 

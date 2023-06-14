@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loginUser } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +9,14 @@ const Login = () => {
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
 
+    useEffect(() => {
+        if (localStorage.name) {
+            navigate("/bikes")
+        }
+    }, [])
+
     const handleSubmit = () => {
+
         const credentials = {
             "name": name,
             "password": password
