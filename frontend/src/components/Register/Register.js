@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { registerUser } from "../../api/api";
 import { useNavigate } from "react-router-dom";
+import './style.css'
+
 
 const Register = () => {
     const [userName, setUserName] = useState("")
@@ -23,14 +25,14 @@ const Register = () => {
                 "password": password
             }
             registerUser(JSON.stringify(credentials))
-            .then(response => console.log(response.data))
-            .catch(error => {
-                if (error.response) {
-                    console.log(error.response.data);
-                } else {
-                    console.error(error);
-                }
-            })
+                .then(response => console.log(response.data))
+                .catch(error => {
+                    if (error.response) {
+                        console.log(error.response.data);
+                    } else {
+                        console.error(error);
+                    }
+                })
         } else {
             console.log("Passwords in both fields do not match.")
         }
@@ -41,25 +43,22 @@ const Register = () => {
     }
 
     return (
-        <div className="form">
-        <form onSubmit={handleRegister}>
-            <div>
-                <label htmlFor="name"> User name: </label>
-                <input type="text" onChange={(e) => setUserName(e.target.value)} value={userName} name="name" required />
-            </div>
-            <div>
-                <label htmlFor="password"> Password: </label>
-                <input type="password" onChange={(e) => setPassword(e.target.value)} value={password} name="password" required />
-            </div>
-            <div>
-                <label htmlFor="confirmPassword"> Confirm: </label>
-                <input type="password" onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} name="password" required />
-            </div>
-            <div>
-                <input type="submit"/>
-            </div>
-        </form>
-    </div>
+        <div className="register-container">
+            <form onSubmit={handleRegister}>
+                <div className="register-heading">
+                    Register
+                </div>
+                <div className="register-form">
+                    <input className="register-input" placeholder="Login" type="text" onChange={(e) => setUserName(e.target.value)} value={userName} name="name" required />
+                    <input className="register-input" placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} value={password} name="password" required />
+                    <input className="register-input" placeholder="Confirm password" type="password" onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} name="password" required />
+                    <input className="register-button" type="submit" />
+                </div>
+                <div className="register-link">
+                    Already have an account? <a href="/login"> Log in. </a>
+                </div>
+            </form>
+        </div>
     )
 }
 

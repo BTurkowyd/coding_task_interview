@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { loginUser } from "../../api/api";
 import { useNavigate } from "react-router-dom";
-
+import './style.css'
 
 const Login = () => {
 
@@ -21,7 +21,7 @@ const Login = () => {
             "name": name,
             "password": password
         }
-            loginUser(JSON.stringify(credentials))
+        loginUser(JSON.stringify(credentials))
             .then(response => {
                 localStorage.setItem("name", response.data.name)
                 localStorage.setItem("renting", response.data.renting)
@@ -34,29 +34,28 @@ const Login = () => {
                     console.error(error);
                 }
             })
-        
+
         setName("")
         setPassword("")
         navigate("/bikes")
 
     }
 
-    return(
-        <div className="form">
+    return (
+        <div className="login-container">
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="name"> User name: </label>
-                    <input type="text" onChange={(e) => setName(e.target.value)} value={name} name="name" required />
+                <div className="login-heading">
+                    Login
                 </div>
-                <div>
-                    <label htmlFor="password"> Password: </label>
-                    <input type="password" onChange={(e) => setPassword(e.target.value)} value={password} name="password" required />
-                </div>
-                <div>
-                    <input type="submit"/>
+                <div className="login-form">
+                    <input className="login-input" placeholder="Login" type="text" onChange={(e) => setName(e.target.value)} value={name} name="name" required />
+                    <input className="login-input" placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} value={password} name="password" required />
+                    <input className="login-button" type="submit" />
                 </div>
             </form>
-            Are you new here? <a href="/register"> Register your account! </a>
+            <div className="login-link">
+                Are you new here? <a href="/register"> Register your account! </a>
+            </div>
         </div>
     )
 }
