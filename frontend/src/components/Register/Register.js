@@ -24,7 +24,13 @@ const Register = () => {
             }
             registerUser(JSON.stringify(credentials))
             .then(response => console.log(response.data))
-            .catch(error => console.log(error.data))
+            .catch(error => {
+                if (error.response) {
+                    console.log(error.response.data);
+                } else {
+                    console.error(error);
+                }
+            })
         } else {
             console.log("Passwords in both fields do not match.")
         }
