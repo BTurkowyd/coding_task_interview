@@ -104,7 +104,7 @@ func CheckUser(name string) (*models.User, error) {
 	for rows.Next() {
 		var user_id string
 		var name string
-		var password string
+		var password []byte
 		var renting bool
 		var bike_id string
 
@@ -116,7 +116,7 @@ func CheckUser(name string) (*models.User, error) {
 	return nil, errors.New("user not found")
 }
 
-func RegisterUser(name string, password string) {
+func RegisterUser(name string, password []byte) {
 	db, err := sql.Open("postgres", constants.Connection)
 	funcs.CheckError(err)
 	uuid_gen, err := uuid.NewRandom()

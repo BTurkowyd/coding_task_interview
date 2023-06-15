@@ -204,7 +204,7 @@ func HandleLogin(c *gin.Context) {
 			panic(err)
 		}
 
-		if user.Password == password {
+		if funcs.ValidatePassword(password, user.Password) {
 			authenticated := true
 			session.Set("authenticated", authenticated)
 			session.Set("user_name", user.Name)
@@ -236,4 +236,36 @@ func HandleLogout(c *gin.Context) {
 	c.JSON(http.StatusOK, models.Response{Code: http.StatusOK, Message: "User logged out"})
 	c.Redirect(301, "/login")
 
+}
+
+// Handleegister ... Allows new users to create a new account.
+// @Summary Allows new users to create a new account.
+// @Description Allows new users to create a new account.
+// @Accept application/json
+// @Param credentials body models.LoginRequest true "name and password values in models.User"
+// @Tags Authorization
+// @Success 200 {object} models.Response
+// @Failure 400 {object} models.Response
+// @Failure 500 {object} models.Response
+// @Router /register [post]
+func HandleRegister(c *gin.Context) {
+	var registerRequest models.LoginRequest
+
+	if err := c.ShouldBindJSON(&registerRequest); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	name := registerRequest.Name
+	password := funcs.HashPassword(registerRequest.Password)
+	user, err := queries.CheckUser(name)
+
+	if err != nil {
+		queries.RegisterUser(name, password)
+		c.JSON(http.StatusOK, models.Response{Code: http.StatusOK, Message: "User registered. Please go to the login window and log in."})
+
+	} else {
+		c.JSON(http.StatusBadRequest, models.Response{Code: http.StatusBadRequest, Message: fmt.Sprintf("Username %s is alrady taken", user.Name)})
+		fmt.Println("This username is already taken")
+	}
 }

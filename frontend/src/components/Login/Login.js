@@ -27,7 +27,13 @@ const Login = () => {
                 localStorage.setItem("renting", response.data.renting)
                 localStorage.setItem("bike_id", response.data.bike_id)
             })
-            .catch(error => console.log(error.message))
+            .catch(error => {
+                if (error.response) {
+                    console.log(error.response.data);
+                } else {
+                    console.error(error);
+                }
+            })
         
         setName("")
         setPassword("")

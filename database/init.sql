@@ -15,7 +15,7 @@ ALTER TABLE IF EXISTS public.users
     OWNER to postgres;
 
 -- Insert initial data
-INSERT INTO public.users (user_id, name, password, renting, bike_id) VALUES ('1', 'TestUser1', 'password1', false, '0'), ('2', 'TestUser2', 'password1', false, '0'), ('3', 'TestUser3', 'password1', false, '0'); 
+-- INSERT INTO public.users (user_id, name, password, renting, bike_id) VALUES ('1', 'TestUser1', 'password1', false, '0'), ('2', 'TestUser2', 'password1', false, '0'), ('3', 'TestUser3', 'password1', false, '0'); 
 
 CREATE TABLE IF NOT EXISTS public.bike_renting_system
 (

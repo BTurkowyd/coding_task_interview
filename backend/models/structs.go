@@ -12,7 +12,7 @@ type Bike struct {
 type User struct {
 	User_id  string `json:"user_id"`
 	Name     string `json:"name"`
-	Password string `json:"-"`
+	Password []byte `json:"-"`
 	Renting  bool   `json:"renting"`
 	Bike_id  string `json:"bike_id"`
 }
