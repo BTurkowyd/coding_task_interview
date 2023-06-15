@@ -25,7 +25,12 @@ const Register = () => {
                 "password": password
             }
             registerUser(JSON.stringify(credentials))
-                .then(response => console.log(response.data))
+                .then(response => {
+                    console.log(response.data)
+                    if (response.data.code === 200) {
+                        navigate('/login')
+                    }
+                })
                 .catch(error => {
                     if (error.response) {
                         console.log(error.response.data);
