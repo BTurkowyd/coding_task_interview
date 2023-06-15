@@ -23,9 +23,10 @@ func HandleRegister(c *gin.Context) {
 
 	if err != nil {
 		queries.RegisterUser(name, password)
-		c.JSON(http.StatusOK, gin.H{"message": "User registered. Please go to the login window and log in."})
+		c.JSON(http.StatusOK, models.Response{Code: http.StatusOK, Message: "User registered. Please go to the login window and log in."})
 
 	} else {
-		c.JSON(http.StatusBadRequest, gin.H{"message": fmt.Sprintf("Username %s is alrady taken", user.Name)})
+		c.JSON(http.StatusBadRequest, models.Response{Code: http.StatusBadRequest, Message: fmt.Sprintf("Username %s is alrady taken", user.Name)})
+		fmt.Println("This username is already taken")
 	}
 }

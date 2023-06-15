@@ -50,6 +50,7 @@ const Login = () => {
                     <input type="submit"/>
                 </div>
             </form>
+            Are you new here? <a href="/register"> Register your account! </a>
         </div>
     )
 }

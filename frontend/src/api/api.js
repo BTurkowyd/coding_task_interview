@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 
 export const loginUser = async (credentials) => await axiosInstance.post(`${url}/login`, credentials)
 export const logoutUser = async () => await axiosInstance.get(`${url}/logout`)
-export const registerUser = () => axiosInstance.post(`${url}/register`)
+export const registerUser = (credentials) => axiosInstance.post(`${url}/register`, credentials)
 export const fetchBikes = () => axiosInstance.get(`${url}/bikes`)
 export const fetchBikeByID = (bike_id) => axiosInstance.get(`${url}/bikes/${bike_id}`)
 export const rentBike = (bike_id) => axiosInstance.patch(`${url}/rent/${bike_id}`, null)
