@@ -13,12 +13,15 @@ const Bikes = () => {
     let sorted_bikes = bikes.sort((a, b) => (a.bike_id > b.bike_id) ? 1 : ((b.bike_id > a.bike_id) ? -1 : 0))
 
 
+    // useEffect(() => {
+    //     setUser({
+    //         "name": localStorage.getItem("name"),
+    //         "renting": localStorage.getItem("renting"),
+    //         "bike_id:": localStorage.getItem("bike_id")
+    //     })
+    // }, [])
+
     useEffect(() => {
-        setUser({
-            "name": localStorage.getItem("name"),
-            "renting": localStorage.getItem("renting"),
-            "bike_id:": localStorage.getItem("bike_id")
-        })
         fetchBikes()
             .then(response => setBikes(response.data))
             .catch(error => {
@@ -30,6 +33,9 @@ const Bikes = () => {
                 }
             })
         console.log(user)
+    }, [])
+
+    useEffect(() => {
         fetchUserData(user["name"])
             .then(response => (
                 console.log(response.data),
